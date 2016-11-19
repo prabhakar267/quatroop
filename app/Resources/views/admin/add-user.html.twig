@@ -10,7 +10,7 @@
             </div>
             <div class="box-body">
                 <form role="form" action="{{ path('adduser') }}" method="post">
-                    {% if form_response %}
+                    {% if success is defined %}
                     <div class="alert alert-{% if success %}success{% else %}danger{% endif %} alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4>{{ message | raw }}</h4>
@@ -24,10 +24,10 @@
                     <div class="form-group">
                         <label>This user reports to?</label>
                         <select class="form-control" name="parent">
+                            <option value="0" selected>No parent (Super Boss)</option> <!-- Level Rajnikant-->
                             {% for user in all_users %}
                                 <option value="{{ user.id }}">{{ user.name }} ({{ user.id }})</option>
                             {% endfor %}
-                            <option value="0" selected>No parent (Super Boss)</option> <!-- Level Rajnikant-->
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -37,7 +37,4 @@
     </div>
 </div>
 
-{% endblock %}
-
-{% block stylesheets %}
 {% endblock %}

@@ -11,11 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserController extends Controller{
     
-    private function getAllUsers(){
+    private function _getAllUsers(){
         $repository = $this->getDoctrine()->getRepository("AppBundle\Entity\User");
 
         $users_array = array();
-        $users = $repository->findAll();
+        $users = $repository->findBy(array(), array('user_name' => 'ASC'));
 
         foreach($users as $user){
             $user_temp = array(
@@ -29,7 +29,7 @@ class UserController extends Controller{
     }
 
     /**
-     * @Route("/add", name="adduser")
+     * @Route("/add-user", name="adduser")
      */
     public function addUserAction(){
 
@@ -39,8 +39,7 @@ class UserController extends Controller{
         if($request->getMethod() == 'GET'){
 
             return $this->render('admin/add-user.html.twig', array(
-                "form_response" => false,
-                "all_users" => $this->getAllUsers(),
+                "all_users" => $this->_getAllUsers(),
             ));
         } else {
             $name = $request->request->get('name');
@@ -63,24 +62,24 @@ class UserController extends Controller{
 
             $new_user_id = $user->getUserId();
 
+            if(isset($parent_user)){
+                $parent_children = $parent_user->children;
+                $parent_children = json_decode($parent_children);
 
-            $parent_children = $parent_user->children;
-            $parent_children = json_decode($parent_children);
-
-            if(is_null($parent_children)){
-                $parent_children = [$new_user_id];
-            } else {
-                array_push($parent_children, $new_user_id);
-                sort($parent_children);
+                if(is_null($parent_children)){
+                    $parent_children = [$new_user_id];
+                } else {
+                    array_push($parent_children, $new_user_id);
+                    sort($parent_children);
+                }
+                $parent_user->setChildren(json_encode($parent_children));
+                $em->flush();
             }
-            $parent_user->setChildren(json_encode($parent_children));
-            $em->flush();
 
             return $this->render('admin/add-user.html.twig', array(
-                "form_response" => true,
                 "success" => true,
                 "message" => "User successfully added!<br>User ID : <strong>" . $new_user_id . "</strong>",
-                "all_users" => $this->getAllUsers(),
+                "all_users" => $this->_getAllUsers(),
             ));
         }
     }
