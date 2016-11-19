@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>Welcome to QuaTroop! {% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -23,9 +23,64 @@
 
 {{ include('leftmainsidebar.html.twig') }}
 
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-aqua">
+                            <div class="inner">
+                                <h3>Home</h3>
+                                <p>Home</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-home"></i>
+                            </div>
+                            <a href="{{ path('homepage') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <h3>User Info</h3>
+                                <p>User Information</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-ios-people"></i>
+                            </div>
+                            <a href="{{ path('viewuser') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>Add User</h3>
+                                <p>Add a New User</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="{{ path('adduser') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3>Docs</h3>
+                                <p>Documentation</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-ios-box"></i>
+                            </div>
+                            <a href="{{ path('docs') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
 {% block body %}
 {% endblock %}
     
+            </section>
+        </div>
     </div>
 
 {{ include('footer.html.twig') }}

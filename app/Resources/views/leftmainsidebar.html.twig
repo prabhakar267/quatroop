@@ -22,18 +22,23 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li>
-                <a href="pages/calendar.html">
+                <a href="{{ path('homepage') }}">
                     <i class="fa fa-home"></i> <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="pages/calendar.html">
+                <a href="{{ path('viewuser') }}">
                     <i class="fa fa-users"></i> <span>User Information</span>
                 </a>
             </li>
             <li>
-                <a href="pages/calendar.html">
+                <a href="{{ path('adduser') }}">
                     <i class="fa fa-user-plus"></i> <span>Add a new User</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('docs') }}">
+                    <i class="fa fa-folder-open"></i> <span>Documentation</span>
                 </a>
             </li>
             <li class="header">RELEVANT LINKS</li>

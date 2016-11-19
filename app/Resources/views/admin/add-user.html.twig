@@ -1,0 +1,43 @@
+{% extends 'main.html.twig' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add a New User</h3>
+            </div>
+            <div class="box-body">
+                <form role="form" action="{{ path('adduser') }}" method="post">
+                    {% if form_response %}
+                    <div class="alert alert-{% if success %}success{% else %}danger{% endif %} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>{{ message | raw }}</h4>
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" class="form-control" placeholder="Enter the name of new user..." name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>This user reports to?</label>
+                        <select class="form-control" name="parent">
+                            {% for user in all_users %}
+                                <option value="{{ user.id }}">{{ user.name }} ({{ user.id }})</option>
+                            {% endfor %}
+                            <option value="0" selected>No parent (Super Boss)</option> <!-- Level Rajnikant-->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

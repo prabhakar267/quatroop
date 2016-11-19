@@ -15,22 +15,22 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $user_id;
+    public $user_id;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $user_name;
+    public $user_name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $parents;
+    public $parents;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $children;
+    public $children;
 
     /**
      * Get userId
