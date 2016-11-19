@@ -1,0 +1,100 @@
+{% extends 'main.html.twig' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-6">
+        {% if immediate_parents is not empty %}
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title"><strong>{{ user_name }}</strong> directly reports to following:</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="users-list clearfix">
+                    {% for member in immediate_parents %}
+                    <li>
+                        <img src="{{ asset(''~ member.image ~'') }}" alt="User Image">
+                        <a class="users-list-name" href="#">{{ member.name }}</a>
+                        <span class="users-list-date">User ID : {{ member.id }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% if all_parents is not empty %}
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title"><strong>{{ user_name }}</strong> directly or indirectly reports to following:</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="users-list clearfix">
+                    {% for member in all_parents %}
+                    <li>
+                        <img src="{{ asset(''~ member.image ~'') }}" alt="User Image">
+                        <a class="users-list-name" href="#">{{ member.name }}</a>
+                        <span class="users-list-date">User ID : {{ member.id }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        {% if immediate_children is not empty %}
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Following people directly report to <strong>{{ user_name }}</strong>:</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="users-list clearfix">
+                    {% for member in immediate_children %}
+                    <li>
+                        <img src="{{ asset(''~ member.image ~'') }}" alt="User Image">
+                        <a class="users-list-name" href="#">{{ member.name }}</a>
+                        <span class="users-list-date">User ID : {{ member.id }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        {% if all_children is not empty %}
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">Following directly / indirectly report to <strong>{{ user_name }}</strong>:</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="users-list clearfix">
+                    {% for member in all_children %}
+                    <li>
+                        <img src="{{ asset(''~ member.image ~'') }}" alt="User Image">
+                        <a class="users-list-name" href="#">{{ member.name }}</a>
+                        <span class="users-list-date">User ID : {{ member.id }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
