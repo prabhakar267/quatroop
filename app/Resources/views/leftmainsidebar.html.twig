@@ -1,0 +1,46 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>Prabhakar Gupta</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <form class="sidebar-form">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i>
+                  </button>
+                </span>
+          </div>
+        </form>
+
+        <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li>
+                <a href="pages/calendar.html">
+                    <i class="fa fa-home"></i> <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="pages/calendar.html">
+                    <i class="fa fa-users"></i> <span>User Information</span>
+                </a>
+            </li>
+            <li>
+                <a href="pages/calendar.html">
+                    <i class="fa fa-user-plus"></i> <span>Add a new User</span>
+                </a>
+            </li>
+            <li class="header">RELEVANT LINKS</li>
+            <li><a href="http://symfony.com/doc/current/setup.html"><i class="fa fa-circle-o text-aqua"></i> <span>Install Symfony</span></a></li>
+            <li><a href="{{ path('github_repo') }}"><i class="fa fa-circle-o text-aqua"></i> <span>GitHub Repo</span></a></li>
+            <li><a href="http://www.prabhakargupta.com"><i class="fa fa-circle-o text-aqua"></i> <span>Visit Developer</span></a></li>
+            <li><a href="{{ asset('pdf/PHP-user-module-test.pdf') }}"><i class="fa fa-circle-o text-aqua"></i> <span>View Task</span></a></li>
+        </ul>
+    </section>
+</aside>
