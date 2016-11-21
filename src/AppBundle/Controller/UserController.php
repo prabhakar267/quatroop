@@ -56,6 +56,32 @@ class UserController extends Controller{
         return $output_array;
     }
 
+    private function _getAllNodes($root, $adjacency_list){
+        $ans = [];
+        $stack = [];
+        $visited = [];
+
+        foreach($adjacency_list as $node_id => $node)
+            $visited[$node_id] = false;
+
+        // initialization of stack
+        array_push($stack, $root);
+
+        while(!empty($stack)){
+            $curr_node = array_pop($stack);
+            $visited[$curr_node] = true;
+            array_push($ans, $curr_node);
+
+            if(!is_null($adjacency_list[$curr_node]))
+                foreach($adjacency_list[$curr_node] as $node)
+                    if(!$visited[$node])
+                        array_push($stack, $node);
+        }
+        sort($ans);
+        
+        return $ans;
+    }
+
     /**
      * @Route("/add-user", name="adduser")
      */
@@ -137,7 +163,8 @@ class UserController extends Controller{
      */
     public function viewOneUserAction($user_id){
         // check if the user id is a postitive integer or not
-        if((int)$user_id <= 0){
+        $user_id = (int)$user_id;
+        if($user_id <= 0){
             return $this->redirectToRoute('viewuser');
         }
         
@@ -145,6 +172,8 @@ class UserController extends Controller{
 
         $immediate_parents = [];
         $immediate_children = [];
+        $all_parents = [];
+        $all_children = [];
 
         $parents = [];
         $children = [];
@@ -174,12 +203,16 @@ class UserController extends Controller{
             $immediate_children = $this->_getUserObjectsFromIDs($names, $children[$user_id]);
             $immediate_parents = $this->_getUserObjectsFromIDs($names, $parents[$user_id]);
 
-            // echo json_encode($immediate_parents);
-            // die;
+            $all_children = $this->_getAllNodes($user_id, $children);
+            $all_parents = $this->_getAllNodes($user_id, $parents);
+
+            $all_children = $this->_getUserObjectsFromIDs($names, $all_children);
+            $all_parents = $this->_getUserObjectsFromIDs($names, $all_parents);
+
             return $this->render('admin/view-user-success.html.twig', array(
                 "user_name" => $names[$user_id],
-                "all_parents" => $immediate_parents,
-                "all_children" => $immediate_children,
+                "all_parents" => $all_parents,
+                "all_children" => $all_children,
                 "immediate_parents" => $immediate_parents,
                 "immediate_children" => $immediate_children,
             ));
