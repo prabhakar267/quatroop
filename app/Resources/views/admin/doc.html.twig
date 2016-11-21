@@ -2,193 +2,94 @@
 {% extends 'main.html.twig' %}
 
 {% block body %}
+    <div class="content-header">
+        <h1>
+            Qua<strong>Troop</strong>
+            <small>Current version 1.0.1</small>
+        </h1>
+    </div>
 
-      <!-- /.row -->
-      <!-- Main row -->
-      <div class="row">
-        <!-- Left col -->
-        <section class="col-lg-7 connectedSortable">
-          <!-- Custom tabs (Charts with tabs)-->
-          <div class="nav-tabs-custom">
-            <!-- Tabs within a box -->
-            <ul class="nav nav-tabs pull-right">
-              <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-              <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-              <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
+    <section id="introduction">
+        <h2 class="page-header"><a href="#introduction">Introduction</a></h2>
+        <p class="lead">
+            Qua<strong>Troop</strong> is a dynamic user hierarchy system which can link any selected user to 'n' number of managers and 'n' number of team members. It's main features include the following:<br>
+            <ul>
+                <li>There is no limit to the value of 'n'.</li>
+                <li>Any existing user in the system can be assigned as a manager or a team member to the current user selected.</li>
+                <li>The user hierarchy management requires a flexible structure to store a list of “People reporting to User” and a list of “User reports to People”.</li>
+                <li>For every user one can select a list of users (existing in system) for both fields: “People reporting to User” & “User reports to People”.</li>
             </ul>
-            <div class="tab-content no-padding">
-              <!-- Morris chart - Sales -->
-              <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-              <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-            </div>
-          </div>
-          <!-- /.nav-tabs-custom -->
+        </p>
+    </section>
 
-          <!-- quick email widget -->
-          <div class="box box-info">
-            <div class="box-header">
-              <i class="fa fa-envelope"></i>
+    <section>
+        <h2 class="page-header"><a href="#available-routes">Available Routes</a></h2>
+        <h3><code>/user</code></h3>
+        <p class="lead">
+            This gives a list of all the users in the system and once we select anyone out of them, it gives information about all that specific selected user. It gives the following information about the user:
+            <ul>
+                <li><strong>All users who the current user reports to (All Levels)</strong></li>
+                <li><strong>All users reporting to current user (All Levels)</strong></li>
+                <li><strong>All users who the current user reports to (One Level)</strong></li>
+                <li><strong>All users reporting to current user (One Level)</strong></li>
+            </ul>
+        </p>
+        <h3><code>/add-user</code></h3>
+        <p class="lead">
+            This gives a panel to add a new user in the system. We can select the immediate parent of the new user and accordingly the changes are done automatically in the system giving a new User ID to the user.
+        </p>
+        <h3><code>/edit-user</code></h3>
+        <p class="lead">
+            This gives a panel to add new connections for an existing user in the system. We can select the a new parent and a new child and accordingly the changes are done automatically in the system.
+        </p>
+    </section>
 
-              <h3 class="box-title">Quick Email</h3>
-              <!-- tools box -->
-              <div class="pull-right box-tools">
-                <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
-                  <i class="fa fa-times"></i></button>
-              </div>
-              <!-- /. tools -->
-            </div>
-            <div class="box-body">
-              <form action="#" method="post">
-                <div class="form-group">
-                  <input type="email" class="form-control" name="emailto" placeholder="Email to:">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject">
-                </div>
-                <div>
-                  <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="box-footer clearfix">
-              <button type="button" class="pull-right btn btn-default" id="sendEmail">Send
-                <i class="fa fa-arrow-circle-right"></i></button>
-            </div>
-          </div>
+    <section>
+        <h2 class="page-header"><a href="#algorithm-used">Algorithm Used</a></h2>
+        <strong>Breadth First Search (BFS)</strong> algorithm traverses a graph in a breadthward motion and uses a queue to remember to get the next vertex to start a search, when a dead end occurs in any iteration.
+        <br>
+        <center>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Animated_BFS.gif">
+        </center>
+       
+        <br>
+        <pre class="prettyprint">
+<strong>Breadth-First-Search(Graph, root):</strong>
 
-        </section>
-        <!-- /.Left col -->
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <section class="col-lg-5 connectedSortable">
+for each node n in Graph:            
+    n.distance = INFINITY        
+    n.parent = NIL
 
-          <!-- Map box -->
-          <div class="box box-solid bg-light-blue-gradient">
-            <div class="box-header">
-              <!-- tools box -->
-              <div class="pull-right box-tools">
-                <button type="button" class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip" title="Date range">
-                  <i class="fa fa-calendar"></i></button>
-                <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                  <i class="fa fa-minus"></i></button>
-              </div>
-              <!-- /. tools -->
+create empty queue Q      
 
-              <i class="fa fa-map-marker"></i>
+root.distance = 0
+Q.enqueue(root)                      
 
-              <h3 class="box-title">
-                Visitors
-              </h3>
-            </div>
-            <div class="box-body">
-              <div id="world-map" style="height: 250px; width: 100%;"></div>
-            </div>
-            <!-- /.box-body-->
-            <div class="box-footer no-border">
-              <div class="row">
-                <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                  <div id="sparkline-1"></div>
-                  <div class="knob-label">Visitors</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                  <div id="sparkline-2"></div>
-                  <div class="knob-label">Online</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-4 text-center">
-                  <div id="sparkline-3"></div>
-                  <div class="knob-label">Exists</div>
-                </div>
-                <!-- ./col -->
-              </div>
-              <!-- /.row -->
-            </div>
-          </div>
-          <!-- /.box -->
+while Q is not empty:        
+    current = Q.dequeue()
+    for each node n that is adjacent to current:
+        if n.distance == INFINITY:
+            n.distance = current.distance + 1
+            n.parent = current
+            Q.enqueue(n)
+        </pre>
+    </section>
 
-          <!-- Calendar -->
-          <div class="box box-solid bg-green-gradient">
-            <div class="box-header">
-              <i class="fa fa-calendar"></i>
-
-              <h3 class="box-title">Calendar</h3>
-              <!-- tools box -->
-              <div class="pull-right box-tools">
-                <!-- button with a dropdown -->
-                <div class="btn-group">
-                  <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-bars"></i></button>
-                  <ul class="dropdown-menu pull-right" role="menu">
-                    <li><a href="#">Add new event</a></li>
-                    <li><a href="#">Clear events</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">View calendar</a></li>
-                  </ul>
-                </div>
-                <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                </button>
-              </div>
-              <!-- /. tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <!--The calendar -->
-              <div id="calendar" style="width: 100%"></div>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-black">
-              <div class="row">
-                <div class="col-sm-6">
-                  <!-- Progress bars -->
-                  <div class="clearfix">
-                    <span class="pull-left">Task #1</span>
-                    <small class="pull-right">90%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                  </div>
-
-                  <div class="clearfix">
-                    <span class="pull-left">Task #2</span>
-                    <small class="pull-right">70%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-6">
-                  <div class="clearfix">
-                    <span class="pull-left">Task #3</span>
-                    <small class="pull-right">60%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                  </div>
-
-                  <div class="clearfix">
-                    <span class="pull-left">Task #4</span>
-                    <small class="pull-right">40%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                  </div>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-          </div>
-          <!-- /.box -->
-
-        </section>
-        <!-- right col -->
-      </div>
-      <!-- /.row (main row) -->
-
+    <section>
+        <h2 class="page-header"><a href="#dependencies">Dependencies</a></h2>
+        <p class="lead">
+            Qua<strong>Troop</strong> is built over Symfony 3 PHP Framework using MySQL Database. All the dependencies are listed below:
+            <ul>
+                <li><a href="http://symfony.com/">Symfony 3</a></li>
+                <li><a href="#">MySQL Database</a></li>
+                <li><a href="http://getbootstrap.com/">Bootstrap 3</a></li>
+                <li><a href="https://github.com/almasaeed2010/AdminLTE">Admin LTE </a></li>
+                <li><a href="http://jquery.com/">jQuery 1.11+</a></li>
+            </ul>
+        </p>
+    </section>
 {% endblock %}
 
 {% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('css/documentation-style.css') }}">
 {% endblock %}
