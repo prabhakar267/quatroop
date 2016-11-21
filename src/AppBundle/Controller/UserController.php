@@ -48,7 +48,6 @@ class UserController extends Controller{
             $temp_user = array(
                 'id' => $user_id,
                 'name' => $all_users[$user_id],
-                'image' => "img/random_users/user" . $random_num . "-128x128.jpg",
             );
 
             array_push($output_array, $temp_user);
@@ -70,7 +69,9 @@ class UserController extends Controller{
         while(!empty($stack)){
             $curr_node = array_pop($stack);
             $visited[$curr_node] = true;
-            array_push($ans, $curr_node);
+
+            if($curr_node != $root)
+                array_push($ans, $curr_node);
 
             if(!is_null($adjacency_list[$curr_node]))
                 foreach($adjacency_list[$curr_node] as $node)
@@ -78,6 +79,7 @@ class UserController extends Controller{
                         array_push($stack, $node);
         }
         sort($ans);
+        // unset($ans[$root]);
         
         return $ans;
     }
