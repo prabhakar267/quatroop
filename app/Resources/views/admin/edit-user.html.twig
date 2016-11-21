@@ -1,0 +1,42 @@
+{% extends 'main.html.twig' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add a New Connection between existing Users</h3>
+            </div>
+            <div class="box-body">
+                <form role="form" action="{{ path('edituser') }}" method="post">
+                    {% if success is defined %}
+                    <div class="alert alert-{% if success %}success{% else %}danger{% endif %} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>{{ message | raw }}</h4>
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label>Select New Parent</label>
+                        <select class="form-control" name="parent">
+                            {% for user in all_users %}
+                                <option value="{{ user.id }}">{{ user.name }} ({{ user.id }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select New Child</label>
+                        <select class="form-control" name="child">
+                            {% for user in all_users %}
+                                <option value="{{ user.id }}">{{ user.name }} ({{ user.id }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

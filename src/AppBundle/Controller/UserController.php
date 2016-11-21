@@ -9,8 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class UserController extends Controller{
-    
+class UserController extends Controller{    
+    /**
+     * Returns a list of all the users in the system
+     * If the mode is set to true, it also sends the
+     * lists of all the children and parents
+     */
     private function _getAllUsers($mode=false){
         $repository = $this->getDoctrine()->getRepository("AppBundle\Entity\User");
 
@@ -38,6 +42,11 @@ class UserController extends Controller{
         return $users_array;
     }
 
+
+    /**
+     * It returns a list of the objects (user names and IDs) of 
+     * all the users passed in the function as a parameters
+     */
     private function _getUserObjectsFromIDs($all_users, $users_array){
         $output_array = [];
         if(empty($users_array))
@@ -55,6 +64,11 @@ class UserController extends Controller{
         return $output_array;
     }
 
+
+    /**
+     * breadth-first search algorithm
+     * ref : https://www.khanacademy.org/computing/computer-science/algorithms/breadth-first-search/a/the-breadth-first-search-algorithm
+     */
     private function _getAllNodes($root, $adjacency_list){
         $ans = [];
         $stack = [];
@@ -79,16 +93,15 @@ class UserController extends Controller{
                         array_push($stack, $node);
         }
         sort($ans);
-        // unset($ans[$root]);
-        
+        $ans = array_unique($ans);        
         return $ans;
     }
+
 
     /**
      * @Route("/add-user", name="adduser")
      */
     public function addUserAction(){
-
         $repository = $this->getDoctrine()->getRepository('AppBundle:User');
         $request = Request::createFromGlobals();
 
@@ -194,14 +207,14 @@ class UserController extends Controller{
         }
 
 
-        if(!$user_existence_flag)
+        if(!$user_existence_flag){
             return $this->render('admin/view-user.html.twig', array(
                 "user_success" => true,
                 "info_success" => false,
                 "message" => "Sorry, we could not find a user with ID : <strong>" . $user_id . "</strong>",
                 "all_users" => $all_users_information,
             ));
-        else {
+        } else {
             $immediate_children = $this->_getUserObjectsFromIDs($names, $children[$user_id]);
             $immediate_parents = $this->_getUserObjectsFromIDs($names, $parents[$user_id]);
 
@@ -219,7 +232,91 @@ class UserController extends Controller{
                 "immediate_children" => $immediate_children,
             ));
         }
-
     }
 
+
+    /**
+     * @Route("/edit-user", name="edituser")
+     */
+    public function addUserConnection(){
+        $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+        $em = $this->getDoctrine()->getManager();
+        $request = Request::createFromGlobals();
+        $all_users_information = $this->_getAllUsers($mode=true);
+        $response_parameters = [];
+
+        if($request->getMethod() == 'GET'){
+            $response_parameters = array(
+                "all_users" => $all_users_information,
+            );
+        } else {
+            $new_parent_id = (int)$request->request->get('parent');
+            $new_child_id = (int)$request->request->get('child');
+
+            // check if the selected child parent pair is invalid or not
+            if($new_parent_id == $new_child_id){
+                $response_parameters = array(
+                    "all_users" => $all_users_information,
+                    "success" => false,
+                    "message" => "You cannot add same user as both parent and child",
+                );
+            } else {
+                $connection_exists = false;
+                $parent_children = [];
+                $child_parents = [];
+
+                foreach($all_users_information as $node){
+                    if($node['id'] == $new_child_id){
+                        $child_parents = $node['parents'];
+                    }
+
+                    if($node['id'] == $new_parent_id){
+                        $parent_children = $node['children'];
+                        if(!is_null($parent_children))
+                            if(in_array($new_child_id, $parent_children))
+                                $connection_exists = true;
+                    }
+                }
+
+                // check if the child and parent are already connected or not
+                if($connection_exists){
+                    $response_parameters = array(
+                        "all_users" => $all_users_information,
+                        "success" => false,
+                        "message" => "The selected Child-Parent connection already exists",
+                    );
+                } else {
+                    // insert new child for the parent node
+                    if(is_null($parent_children)){
+                        $parent_children = [$new_child_id];
+                    } else {
+                        array_push($parent_children, $new_child_id);
+                        sort($parent_children);
+                    }
+                    $new_parent_user = $repository->find($new_parent_id);
+                    $new_parent_user->setChildren(json_encode($parent_children));
+                    $em->flush();
+                    
+                    // insert new parent for the child node
+                    if(is_null($child_parents)){
+                        $child_parents = [$new_parent_id];
+                    } else {
+                        array_push($child_parents, $new_parent_id);
+                        sort($child_parents);
+                    }
+                    $new_child_user = $repository->find($new_child_id);
+                    $new_child_user->setParents(json_encode($child_parents));
+                    $em->flush();
+
+                    $response_parameters = array(
+                        "all_users" => $all_users_information,
+                        "success" => true,
+                        "message" => "The selected Child-Parent connection successfully added.",
+                    );
+                }
+            }
+        }
+     
+        return $this->render('admin/edit-user.html.twig', $response_parameters);
+    }
 }
