@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+
 class UserController extends Controller{    
     /**
      * Returns a list of all the users in the system
@@ -71,17 +72,17 @@ class UserController extends Controller{
      */
     private function _getAllNodes($root, $adjacency_list){
         $ans = [];
-        $stack = [];
+        $queue = [];
         $visited = [];
 
         foreach($adjacency_list as $node_id => $node)
             $visited[$node_id] = false;
 
-        // initialization of stack
-        array_push($stack, $root);
+        // initialization of queue
+        array_push($queue, $root);
 
-        while(!empty($stack)){
-            $curr_node = array_pop($stack);
+        while(!empty($queue)){
+            $curr_node = array_shift($queue);
             $visited[$curr_node] = true;
 
             if($curr_node != $root)
@@ -90,7 +91,7 @@ class UserController extends Controller{
             if(!is_null($adjacency_list[$curr_node]))
                 foreach($adjacency_list[$curr_node] as $node)
                     if(!$visited[$node])
-                        array_push($stack, $node);
+                        array_push($queue, $node);
         }
         sort($ans);
         $ans = array_unique($ans);        
