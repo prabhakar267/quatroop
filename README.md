@@ -27,6 +27,7 @@ This gives a panel to add new connections for an existing user in the system. We
 **Breadth First Search (BFS)** algorithm traverses a graph in a breadthward motion and uses a queue to remember to get the next vertex to start a search, when a dead end occurs in any iteration.
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Animated_BFS.gif">
+
 ```
 Breadth-First-Search(Graph, root):
 
@@ -47,6 +48,7 @@ while Q is not empty:
             n.parent = current
             Q.enqueue(n)
 ```
+
 ## Dependencies
 Qua**Troop** is built over Symfony 3 PHP Framework using MySQL Database. All the dependencies are listed below:
  + [Symfony 3](http://symfony.com/)
