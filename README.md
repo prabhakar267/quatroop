@@ -9,6 +9,49 @@ It's main features include the following:
 
 ![QuaTroop](/screenshots/screencapture-localhost-8000-1479766681182.png)
 
+## Installation Instructions
+
+### Linux 
+
+1. Using git, clone this repository to your local file system or download the zip:
+```
+git clone https://github.com/prabhakar267/quatroop.git
+```
+
+2. Make sure to have composer installed in order to install all required dependencies:
+```
+https://getcomposer.org/download/
+```
+3. a. If you installed composer locally, cd into the project directory, then run:
+```
+php composer.phar install
+```
+b. If you installed composer globally, cd into the project directory, then run:
+```
+composer install
+```
+4. During the composer install you will be prompted to provide connection details to the database server. 
+5. Run the following command which will create the database using the details provided during the composer install.
+```
+php bin/composer doctrine:database:create
+```
+6. Now we need to build the database schema. Run the following command:
+```
+php bin/composer doctrine:schema:create
+```
+
+Now we need to setup a web server
+
+#### PHP Local Test Server
+To get a quick web server up and running for local development purposes we can go through the following easy steps:
+
+1. Make sure you cd into the project directory then run the following command:
+```
+php bin/console server:run 
+```
+
+This should now allow you, by default, to go to http://127.0.0.1:8000/ and use the application. Ideally however, you would set the application up using a production web server such as Apache or Nginx, as the provided PHP web server is meant purely for local development and testing purposes and is in no way ready for production use.
+
 ## Available Routes
 + ### /user
 This gives a list of all the users in the system and once we select anyone out of them, it gives information about all that specific selected user. It gives the following information about the user:
