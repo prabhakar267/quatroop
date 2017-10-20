@@ -9,7 +9,7 @@ It's main features include the following:
 
 ![QuaTroop](/screenshots/screencapture-localhost-8000-1479766681182.png)
 
-##Installation Instructions
+## Installation Instructions
 
 ### Linux 
 
