@@ -33,11 +33,11 @@ composer install
 4. During the composer install you will be prompted to provide connection details to the database server. 
 5. Run the following command which will create the database using the details provided during the composer install.
 ```
-php bin/composer doctrine:database:create
+php bin/console doctrine:database:create
 ```
 6. Now we need to build the database schema. Run the following command:
 ```
-php bin/composer doctrine:schema:create
+php bin/console doctrine:schema:create
 ```
 
 Now we need to setup a web server
